@@ -1,16 +1,21 @@
 package com.example.coolweather.util;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.coolweather.db.City;
 import com.example.coolweather.db.County;
 import com.example.coolweather.db.Province;
+import com.example.coolweather.gson.Weather;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Utility {
+    private static final String TAG = "Utility";
     /**
      * 解析和处理服务器返回的省级数据并存储到数据库
      * @param response
@@ -83,5 +88,40 @@ public class Utility {
             }
         }
         return false;
+    }
+
+    /**
+     * 将返回的JSON数据解析成Weather实体类
+     * @param response
+     * @return
+     */
+    public static Weather handleWeatherResponse (String response) {
+        try {
+            Log.d(TAG, "handleWeatherResponse()---response: "+response);
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("HeWeather");
+            String weatherContent = jsonArray.getJSONObject(0).toString();
+            return new Gson().fromJson(weatherContent, Weather.class); //直接将JSON数据转换成Weather对象
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 每日一图返回的JSON数据解析出图片的url
+     */
+    public static String handlePicurlResponse(String response) {
+        String picUrl = "";
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("images");
+            JSONObject imgJsonObj =  jsonArray.getJSONObject(0);
+            picUrl = imgJsonObj.getString("url");
+            Log.d(TAG, "handlePicurlResponse() --->url:"+picUrl);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return picUrl;
     }
 }
