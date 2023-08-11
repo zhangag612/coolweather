@@ -3,13 +3,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.0"
+    compileSdkVersion 28
+    buildToolsVersion "28.0.0"
 
     defaultConfig {
         applicationId "com.example.coolweather"
-        minSdkVersion 30
-        targetSdkVersion 30
+        minSdkVersion 28
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
 
@@ -37,9 +37,10 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation files('libs/downloads_litepal-1.6.1-src.jar')
-    implementation 'com.squareup.okhttp3:okhttp:3.4.1'
-    implementation 'com.google.code.gson:gson:2.7'
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+
+    implementation "com.squareup.okhttp3:okhttp:4.4.0"//进行网络请求
+    implementation 'com.google.code.gson:gson:2.8.6'//解析JSON数据
+    implementation 'com.github.bumptech.glide:glide:4.11.0'//加载和展示图片
+
 
 }
