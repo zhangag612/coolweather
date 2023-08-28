@@ -16,17 +16,33 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        config {
+            /*指定keyStore文件的位置*/
+            storeFile file (KEY_PATH)
+            storePassword KEY_PASS
+            /*别名*/
+            keyAlias ALIAS_NAME
+            keyPassword ALIAS_PASS
+        }
+    }
+
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            /*在生成正式版APK的时候去应用这个配置(会自动使用刚才配置的签名信息来进行签名)*/
+            signingConfig signingConfigs.config
         }
+
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
